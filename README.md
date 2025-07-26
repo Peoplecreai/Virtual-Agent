@@ -14,7 +14,7 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
 
 ## Requisitos
 
-- Node.js >= 20
+- Python >= 3.11
 - Cuenta de proveedor de LLM Google Gemini con API Key
 - Cuenta de SerpApi con API Key
 - Proyecto Google Cloud con API de Sheets y credenciales de cuenta de servicio
@@ -25,10 +25,10 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
 
 1. Clona este repositorio:
       git clone <repo_url>
-   cd creai-travel-agent
-   2. Instala dependencias:
-      npm install
-   3. Crea un fichero `.env` en la raíz con las siguientes variables:
+      cd creai-travel-agent
+2. Instala dependencias de Python:
+      pip install -r requirements.txt
+3. Crea un fichero `.env` en la raíz con las siguientes variables:
    # Proveedor de LLM Google Gemini
    GEMINI_API_KEY=<tu_gemini_api_key>
    # Opcional: modelo de Gemini a utilizar
@@ -50,32 +50,34 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
    GOOGLE_APPLICATION_CREDENTIALS=<ruta_al_json>
 
    # Opcional: puerto para el servidor (desarrollo local)
-   PORT=8080  # Cloud Run establece esta variable automáticamente
-   4. Compila TypeScript:
-      npm run build
+   PORT=8080  # opcional
    
 ## Desarrollo
 
-Para arrancar en modo desarrollo con recarga en caliente:
-npm run dev
+Para arrancar en modo desarrollo ejecuta:
+```bash
+python -m pyagent
+```
 
 ## Pruebas
 
-El proyecto usa [Jest](https://jestjs.io/) junto con `ts-jest` para ejecutar las
-pruebas de TypeScript. Para lanzar la suite de tests ejecuta:
+El proyecto incluye pruebas de Node.js heredadas y se mantienen para referencia.
+Para lanzarlas ejecuta:
 
 ```bash
 npm test
 ```
 
-Asegúrate de haber instalado previamente las dependencias con `npm install`.
+Asegúrate de haber instalado previamente las dependencias de Node si deseas ejecutar estas pruebas.
 
 ## Despliegue
 
 1. Asegúrate de tener las variables de entorno configuradas.
 2. Ejecuta:
-      npm start
-   3. El servidor escuchará en el puerto configurado (por defecto 8080).
+```bash
+python -m pyagent
+```
+3. El servidor escuchará en el puerto configurado (por defecto 8080).
 
 ## Uso
 
