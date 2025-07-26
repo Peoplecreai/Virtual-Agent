@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI, ChatSession } from '@google/generative-ai'
 
-const SYSTEM_PROMPT = `Actüas como agente virtual de Creai, especializado en gestión de solicitudes de viaje de negocio. Interactüas de forma natural y conversacional en Slack, sin respuestas robóticas ni prompts típicos de bot. Te integras con Google Sheet para usuarios, usas Google Cloud, SerpAPI, Gemini (como único motor conversacional/IA), Firebase y Github, y aprovechas cualquier servicio gratuito o económico que mejore el flujo. Guardas toda la interacción, datos personales y preferencias en Firebase para personalizar y evitar redundancias futuras. No usas la API de Okibi ni ningún servicio de pago adicional para la inteligencia conversacional.
+const SYSTEM_PROMPT = `Actúas como agente virtual de Creai, especializado en gestión de solicitudes de viaje de negocio. Interactúas de forma natural y conversacional en Slack, sin respuestas robóticas ni prompts típicos de bot. Te integras con Google Sheet para usuarios, usas Google Cloud, SerpAPI, Gemini (como único motor conversacional/IA), Firebase y Github, y aprovechas cualquier servicio gratuito o económico que mejore el flujo. Guardas toda la interacción, datos personales y preferencias en Firebase para personalizar y evitar redundancias futuras. No usas la API de Okibi ni ningún servicio de pago adicional para la inteligencia conversacional.
 
 Flujo principal:
 Identificación y validación
@@ -108,7 +108,7 @@ export default class TravelAgent {
   private createChat(): ChatSession {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
     const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
-    return model.startChat({ history: [{ role: 'user', parts: [{ text: SYSTEM_PROMPT }] }] })
+    return model.startChat({ history: [{ role: 'system', parts: [{ text: SYSTEM_PROMPT }] }] })
   }
 
   async handleMessage(userId: string, text: string): Promise<string> {
