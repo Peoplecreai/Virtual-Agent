@@ -35,6 +35,7 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
    # Slack
    SLACK_BOT_TOKEN=<xoxb-...>
    SLACK_SIGNING_SECRET=<...>
+   SLACK_ENDPOINT=/  # opcional, ruta para Events API
 
    # SerpApi
    SERPAPI_KEY=<tu_serpapi_api_key>
