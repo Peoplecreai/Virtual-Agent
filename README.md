@@ -15,8 +15,7 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
 ## Requisitos
 
 - Node.js >= 16
-- Cuenta Okibi con API Key
-- Cuenta de proveedor de LLM (ej. Google Gemini) con API Key
+- Cuenta de proveedor de LLM Google Gemini con API Key
 - Cuenta de SerpApi con API Key
 - Proyecto Google Cloud con API de Sheets y credenciales de cuenta de servicio
 - Proyecto Firebase con credenciales de servicio
@@ -30,10 +29,7 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
    2. Instala dependencias:
       npm install
    3. Crea un fichero `.env` en la raíz con las siguientes variables:
-      # Okibi
-   OKIBI_API_KEY=<tu_okibi_api_key>
-
-   # Proveedor de LLM (p.ej. Google Gemini)
+   # Proveedor de LLM Google Gemini
    GEMINI_API_KEY=<tu_gemini_api_key>
 
    # Slack
@@ -79,4 +75,4 @@ Las contribuciones son bienvenidas. Por favor abre issues o pull requests.
 
 ---
 
-Creado con ❤️ usando Okibi SDK
+Creado con ❤️ usando Gemini y herramientas de código abierto

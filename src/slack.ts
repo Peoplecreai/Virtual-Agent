@@ -1,7 +1,7 @@
 import { App, LogLevel } from '@slack/bolt'
-import { AgentClient } from '@okibi/a1kit'
+import TravelAgent from './agent'
 
-export function setupSlack(agentClient: AgentClient) {
+export function setupSlack(agent: TravelAgent) {
   const app = new App({
     token: process.env.SLACK_BOT_TOKEN!,
     signingSecret: process.env.SLACK_SIGNING_SECRET!,
@@ -14,9 +14,10 @@ export function setupSlack(agentClient: AgentClient) {
   app.message(async ({ message, say }) => {
     if ((message as any).subtype) return // ignore bot messages and others
     const userText = (message as any).text as string
+    const userId = (message as any).user as string
     try {
-      const result = await agentClient.execute(userText)
-      await say(result.response)
+      const response = await agent.handleMessage(userId, userText)
+      await say(response)
     } catch (err) {
       console.error('Error executing agent:', err)
       await say('Lo siento, hubo un error procesando tu solicitud. Por favor, inténtalo de nuevo.')
