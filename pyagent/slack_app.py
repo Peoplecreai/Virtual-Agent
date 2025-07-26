@@ -1,24 +1,29 @@
-from slack_bolt import App
-from slack_bolt.adapter.socket_mode import SocketModeHandler
-from .agent import TravelAgent
+from slack_bolt.async_app import AsyncApp
 import os
+from .agent import TravelAgent
 
 agent = TravelAgent()
-app = App(token=os.environ.get('SLACK_BOT_TOKEN'))
+app = AsyncApp(
+    token=os.environ.get("SLACK_BOT_TOKEN"),
+    signing_secret=os.environ.get("SLACK_SIGNING_SECRET"),
+)
 
-@app.event('message')
+@app.event("message")
 async def handle_message(body, say):
-    event = body.get('event', {})
+    event = body.get("event", {})
     if 'subtype' in event:
         return
-    user_id = event.get('user')
-    text = event.get('text', '')
+    user_id = event.get("user")
+    text = event.get("text", "")
     response = await agent.handle_message(user_id, text)
     await say(response)
 
-def main():
-    handler = SocketModeHandler(app, os.environ.get('SLACK_APP_TOKEN'))
-    handler.start()
 
-if __name__ == '__main__':
+def main():
+    port = int(os.environ.get("PORT", "8080"))
+    path = os.environ.get("SLACK_ENDPOINT", "/")
+    app.start(port=port, path=path)
+
+
+if __name__ == "__main__":
     main()

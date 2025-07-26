@@ -1,5 +1,6 @@
-google-generativeai
+google-genai
 slack_bolt
 firebase-admin
 google-api-python-client
 serpapi
+aiohttp
