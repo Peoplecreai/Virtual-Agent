@@ -1,0 +1,31 @@
+import { App, LogLevel } from '@slack/bolt'
+import { AgentClient } from '@okibi/a1kit'
+
+export function setupSlack(agentClient: AgentClient) {
+  const app = new App({
+    token: process.env.SLACK_BOT_TOKEN!,
+    signingSecret: process.env.SLACK_SIGNING_SECRET!,
+    appToken: process.env.SLACK_APP_TOKEN!,
+    socketMode: true,
+    logLevel: LogLevel.INFO
+  })
+
+  // Listen to any message in channels the bot is in
+  app.message(async ({ message, say }) => {
+    if ((message as any).subtype) return // ignore bot messages and others
+    const userText = (message as any).text as string
+    try {
+      const result = await agentClient.execute(userText)
+      await say(result.response)
+    } catch (err) {
+      console.error('Error executing agent:', err)
+      await say('Lo siento, hubo un error procesando tu solicitud. Por favor, inténtalo de nuevo.')
+    }
+  })
+
+  // Start the Slack listener
+  (async () => {
+    await app.start()
+    console.log('Slack app is running!')
+  })()
+}
