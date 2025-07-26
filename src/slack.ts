@@ -8,7 +8,7 @@ export function setupSlack(agent: TravelAgent) {
     appToken: process.env.SLACK_APP_TOKEN!,
     socketMode: true,
     logLevel: LogLevel.INFO
-  })
+  });
 
   // Listen to any message in channels the bot is in
   app.message(async ({ message, say }) => {
@@ -22,11 +22,11 @@ export function setupSlack(agent: TravelAgent) {
       console.error('Error executing agent:', err)
       await say('Lo siento, hubo un error procesando tu solicitud. Por favor, inténtalo de nuevo.')
     }
-  })
+  });
 
   // Start the Slack listener
   (async () => {
     await app.start()
     console.log('Slack app is running!')
-  })()
+  })();
 }
