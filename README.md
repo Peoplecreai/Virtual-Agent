@@ -18,7 +18,7 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
 - Cuenta de proveedor de LLM Google Gemini con API Key
 - Cuenta de SerpApi con API Key
 - Proyecto Google Cloud con API de Sheets y credenciales de cuenta de servicio
-- Proyecto Firebase con credenciales de servicio
+- Proyecto Firebase configurado con GOOGLE_APPLICATION_CREDENTIALS para las credenciales de servicio
 - App de Slack configurada con un Request URL para Events API
 
 ## Instalación
@@ -43,8 +43,8 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
    GOOGLE_SHEET_ID=<tu_sheet_id>
 
    # Firebase
-   FIREBASE_SERVICE_ACCOUNT=<contenido_JSON_o_ruta>
-   FIREBASE_DATABASE_URL=<url_firebase>
+   # Para desarrollo local, define la ruta al archivo de cuenta de servicio
+   GOOGLE_APPLICATION_CREDENTIALS=<ruta_al_json>
 
    # Opcional: puerto para el servidor (desarrollo local)
    PORT=8080  # Cloud Run establece esta variable automáticamente
