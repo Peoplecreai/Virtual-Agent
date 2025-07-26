@@ -30,9 +30,15 @@ export function setupSlack(agent: TravelAgent) {
     const port = process.env.PORT ? Number(process.env.PORT) : 3000;
     await app.start(port);
     console.log(`Slack app is running on port ${port}!`);
-=======
+
+
+    const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+    await app.start(port);
+    console.log(`Slack app is running on port ${port}!`);
+
     await app.start()
     console.log('Slack app is running!')
+
 
   })();
 }
