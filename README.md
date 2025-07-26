@@ -47,8 +47,8 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
    FIREBASE_SERVICE_ACCOUNT=<contenido_JSON_o_ruta>
    FIREBASE_DATABASE_URL=<url_firebase>
 
-   # Opcional: puerto para el servidor
-   PORT=9000
+   # Opcional: puerto para el servidor (desarrollo local)
+   PORT=3000  # Cloud Run establece esta variable automáticamente
    4. Compila TypeScript:
       npm run build
    
