@@ -26,6 +26,7 @@ export function setupSlack(agent: TravelAgent) {
 
   // Start the Slack listener on the port expected by the environment
   (async () => {
+
     const port = process.env.PORT ? Number(process.env.PORT) : 8080;
     await app.start(port);
     console.log(`Slack app is running on port ${port}!`);
