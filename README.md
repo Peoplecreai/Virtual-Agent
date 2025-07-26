@@ -48,7 +48,7 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
    FIREBASE_DATABASE_URL=<url_firebase>
 
    # Opcional: puerto para el servidor (desarrollo local)
-   PORT=3000  # Cloud Run establece esta variable automáticamente
+   PORT=8080  # Cloud Run establece esta variable automáticamente
    4. Compila TypeScript:
       npm run build
    
@@ -62,7 +62,7 @@ npm run dev
 1. Asegúrate de tener las variables de entorno configuradas.
 2. Ejecuta:
       npm start
-   3. El servidor escuchará en el puerto configurado (por defecto 9000).
+   3. El servidor escuchará en el puerto configurado (por defecto 8080).
 
 ## Uso
 
