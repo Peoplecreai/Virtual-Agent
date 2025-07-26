@@ -10,8 +10,11 @@ export function setupSlack(agent: TravelAgent) {
 
   const receiver = new ExpressReceiver({
     signingSecret: SLACK_SIGNING_SECRET,
+
     // Use custom endpoint if provided, otherwise respond on root URL
     endpoints: process.env.SLACK_ENDPOINT || '/'
+
+    endpoints: process.env.SLACK_ENDPOINT || '/slack/events'
   })
 
   receiver.router?.get('/', (_req, res) => res.status(200).send('ok'))
