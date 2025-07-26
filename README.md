@@ -1,6 +1,6 @@
 # Creai Travel Agent
 
-Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack de forma natural, conversacional y precisa.
+Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack de forma natural, conversacional y precisa. Utiliza la nueva librería **@google/genai** para interactuar con el API de Gemini.
 
 ## Características
 
@@ -14,7 +14,7 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
 
 ## Requisitos
 
-- Node.js >= 16
+- Node.js >= 20
 - Cuenta de proveedor de LLM Google Gemini con API Key
 - Cuenta de SerpApi con API Key
 - Proyecto Google Cloud con API de Sheets y credenciales de cuenta de servicio
@@ -32,7 +32,7 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
    # Proveedor de LLM Google Gemini
    GEMINI_API_KEY=<tu_gemini_api_key>
    # Opcional: modelo de Gemini a utilizar
-   GEMINI_MODEL=gemini-pro
+   GEMINI_MODEL=gemini-2.0-pro
 
    # Slack
    SLACK_BOT_TOKEN=<xoxb-...>

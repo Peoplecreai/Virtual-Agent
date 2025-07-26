@@ -1,18 +1,16 @@
 import TravelAgent from '../src/agent'
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import { GoogleGenAI } from '@google/genai'
 
 
-jest.mock('@google/generative-ai')
+jest.mock('@google/genai')
 
-const MockedGenAI = GoogleGenerativeAI as unknown as jest.Mock
-const mockSendMessage = jest.fn(async () => ({
-  response: { candidates: [{ content: { parts: [{ text: 'respuesta' }] } }] }
-}))
+const MockedGenAI = GoogleGenAI as unknown as jest.Mock
+const mockSendMessage = jest.fn(async () => ({ text: 'respuesta' }))
 
 MockedGenAI.mockImplementation(() => ({
-  getGenerativeModel: () => ({
-    startChat: () => ({ sendMessage: mockSendMessage })
-  })
+  chats: {
+    create: () => ({ sendMessage: mockSendMessage })
+  }
 }))
 
 describe('TravelAgent.handleMessage', () => {
@@ -20,6 +18,6 @@ describe('TravelAgent.handleMessage', () => {
     const agent = new TravelAgent()
     const res = await agent.handleMessage('u1', 'hola')
     expect(res).toBe('respuesta')
-    expect(mockSendMessage).toHaveBeenCalledWith('hola')
+    expect(mockSendMessage).toHaveBeenCalledWith({ message: 'hola' })
   })
 })
