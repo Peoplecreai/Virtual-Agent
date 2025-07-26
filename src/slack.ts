@@ -2,13 +2,18 @@ import { App, LogLevel } from '@slack/bolt'
 import TravelAgent from './agent'
 
 export function setupSlack(agent: TravelAgent) {
+  const { SLACK_BOT_TOKEN, SLACK_SIGNING_SECRET } = process.env
+
+  if (!SLACK_BOT_TOKEN || !SLACK_SIGNING_SECRET) {
+    throw new Error('Missing Slack credentials in environment variables')
+  }
+
   const app = new App({
-    token: process.env.SLACK_BOT_TOKEN!,
-    signingSecret: process.env.SLACK_SIGNING_SECRET!,
-    appToken: process.env.SLACK_APP_TOKEN!,
-    socketMode: true,
+    token: SLACK_BOT_TOKEN,
+    signingSecret: SLACK_SIGNING_SECRET,
+    // Using Slack Events API via request URL
     logLevel: LogLevel.INFO
-  });
+  })
 
   // Listen to any message in channels the bot is in
   app.message(async ({ message, say }) => {
@@ -25,10 +30,14 @@ export function setupSlack(agent: TravelAgent) {
   });
 
   // Start the Slack listener on the port expected by the environment
-  (async () => {
-
-    const port = process.env.PORT ? Number(process.env.PORT) : 8080;
-    await app.start(port);
-    console.log(`Slack app is running on port ${port}!`);
-  })();
+  ;(async () => {
+    const port = process.env.PORT ? Number(process.env.PORT) : 8080
+    try {
+      await app.start(port)
+      console.log(`Slack app is running on port ${port}!`)
+    } catch (err) {
+      console.error('Failed to start Slack app:', err)
+      process.exit(1)
+    }
+  })()
 }
