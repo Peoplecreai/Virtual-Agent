@@ -10,7 +10,7 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
 - Almacena y recupera datos de usuario en Firebase
 - Soporta human-in-the-loop antes de confirmar (según configuración)
 - Mantiene memoria de conversaciones
-- Integración directa con Slack (Socket Mode)
+- Integración con Slack mediante Events API
 
 ## Requisitos
 
@@ -19,7 +19,7 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
 - Cuenta de SerpApi con API Key
 - Proyecto Google Cloud con API de Sheets y credenciales de cuenta de servicio
 - Proyecto Firebase con credenciales de servicio
-- App de Slack configurada en modo Socket Mode
+- App de Slack configurada con un Request URL para Events API
 
 ## Instalación
 
@@ -35,7 +35,6 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
    # Slack
    SLACK_BOT_TOKEN=<xoxb-...>
    SLACK_SIGNING_SECRET=<...>
-   SLACK_APP_TOKEN=<xapp-...>
 
    # SerpApi
    SERPAPI_KEY=<tu_serpapi_api_key>
