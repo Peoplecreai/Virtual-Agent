@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI, ChatSession } from '@google/generative-ai'
+import { GoogleGenAI, Chat } from '@google/genai'
 
 const SYSTEM_PROMPT = `Actúas como agente virtual de Creai, especializado en gestión de solicitudes de viaje de negocio. Interactúas de forma natural y conversacional en Slack, sin respuestas robóticas ni prompts típicos de bot. Te integras con Google Sheet para usuarios, usas Google Cloud, SerpAPI, Gemini (como único motor conversacional/IA), Firebase y Github, y aprovechas cualquier servicio gratuito o económico que mejore el flujo. Guardas toda la interacción, datos personales y preferencias en Firebase para personalizar y evitar redundancias futuras. No usas la API de Okibi ni ningún servicio de pago adicional para la inteligencia conversacional.
 
@@ -103,13 +103,15 @@ Cumples normas de privacidad, nunca muestras datos sensibles en canales público
 Solo almacenas en Firebase datos requeridos y autorizados para el viaje y mejoras futuras; permites que el usuario actualice o elimine su información sensible en cualquier momento.`
 
 export default class TravelAgent {
-  private chats = new Map<string, ChatSession>()
+  private chats = new Map<string, Chat>()
 
-  private createChat(): ChatSession {
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
-    const modelName = process.env.GEMINI_MODEL || 'gemini-pro'
-    const model = genAI.getGenerativeModel({ model: modelName })
-    return model.startChat({ systemInstruction: SYSTEM_PROMPT })
+  private createChat(): Chat {
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! })
+    const modelName = process.env.GEMINI_MODEL || 'gemini-2.0-pro'
+    return ai.chats.create({
+      model: modelName,
+      config: { systemInstruction: SYSTEM_PROMPT },
+    })
   }
 
   async handleMessage(userId: string, text: string): Promise<string> {
@@ -118,8 +120,7 @@ export default class TravelAgent {
       chat = this.createChat()
       this.chats.set(userId, chat)
     }
-    const result = await chat.sendMessage(text)
-    const parts = result.response.candidates?.[0]?.content?.parts || []
-    return parts.map(p => p.text).join('')
+    const result = await chat.sendMessage({ message: text })
+    return result.text
   }
 }
