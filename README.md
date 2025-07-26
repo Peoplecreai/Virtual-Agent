@@ -57,6 +57,17 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
 Para arrancar en modo desarrollo con recarga en caliente:
 npm run dev
 
+## Pruebas
+
+El proyecto usa [Jest](https://jestjs.io/) junto con `ts-jest` para ejecutar las
+pruebas de TypeScript. Para lanzar la suite de tests ejecuta:
+
+```bash
+npm test
+```
+
+Asegúrate de haber instalado previamente las dependencias con `npm install`.
+
 ## Despliegue
 
 1. Asegúrate de tener las variables de entorno configuradas.
