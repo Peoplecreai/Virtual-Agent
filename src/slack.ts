@@ -1,4 +1,4 @@
-import { App, LogLevel } from '@slack/bolt'
+import { App, LogLevel, ExpressReceiver } from '@slack/bolt'
 import TravelAgent from './agent'
 
 export function setupSlack(agent: TravelAgent) {
@@ -8,18 +8,27 @@ export function setupSlack(agent: TravelAgent) {
     throw new Error('Missing Slack credentials in environment variables')
   }
 
+  const receiver = new ExpressReceiver({
+    signingSecret: SLACK_SIGNING_SECRET,
+    // Use custom endpoint if provided, otherwise respond on root URL
+    endpoints: process.env.SLACK_ENDPOINT || '/'
+  })
+
+  receiver.router?.get('/', (_req, res) => res.status(200).send('ok'))
+
   const app = new App({
     token: SLACK_BOT_TOKEN,
-    signingSecret: SLACK_SIGNING_SECRET,
+    receiver,
     // Using Slack Events API via request URL
     logLevel: LogLevel.INFO
   })
 
-  // Listen to any message in channels the bot is in
-  app.message(async ({ message, say }) => {
-    if ((message as any).subtype) return // ignore bot messages and others
-    const userText = (message as any).text as string
-    const userId = (message as any).user as string
+  // Listen to any message the bot can access (DMs, channels, mentions)
+  app.event('message', async ({ event, say }) => {
+    if ((event as any).subtype) return; // ignore bot messages and others
+    const userText = (event as any).text as string || ''
+    const userId = (event as any).user as string
+    console.log('Received message from', userId, ':', userText)
     try {
       const response = await agent.handleMessage(userId, userText)
       await say(response)
@@ -27,7 +36,11 @@ export function setupSlack(agent: TravelAgent) {
       console.error('Error executing agent:', err)
       await say('Lo siento, hubo un error procesando tu solicitud. Por favor, inténtalo de nuevo.')
     }
-  });
+  })
+
+  app.error(async (error) => {
+    console.error('Slack app error:', error)
+  })
 
   // Start the Slack listener on the port expected by the environment
   ;(async () => {
@@ -35,6 +48,12 @@ export function setupSlack(agent: TravelAgent) {
     try {
       await app.start(port)
       console.log(`Slack app is running on port ${port}!`)
+      try {
+        await app.client.auth.test()
+        console.log('Slack authentication successful')
+      } catch (authErr) {
+        console.error('Slack authentication failed:', authErr)
+      }
     } catch (err) {
       console.error('Failed to start Slack app:', err)
       process.exit(1)
