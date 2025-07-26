@@ -108,7 +108,7 @@ export default class TravelAgent {
   private createChat(): ChatSession {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
     const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
-    return model.startChat({ history: [{ role: 'system', parts: [{ text: SYSTEM_PROMPT }] }] })
+    return model.startChat({ systemInstruction: SYSTEM_PROMPT })
   }
 
   async handleMessage(userId: string, text: string): Promise<string> {
