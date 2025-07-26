@@ -32,7 +32,7 @@ Agente virtual de Creai para gestionar solicitudes de viaje de negocio en Slack 
    # Proveedor de LLM Google Gemini
    GEMINI_API_KEY=<tu_gemini_api_key>
    # Opcional: modelo de Gemini a utilizar
-   GEMINI_MODEL=gemini-2.0-pro
+   GEMINI_MODEL=gemini-pro
 
    # Slack
    SLACK_BOT_TOKEN=<xoxb-...>
