@@ -11,5 +11,5 @@ Consulta `README.md` para instrucciones completas de instalación y uso.
 Instala dependencias y luego corre:
 
 ```bash
-npm test
+pytest
 ```

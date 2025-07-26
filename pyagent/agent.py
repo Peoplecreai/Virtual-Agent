@@ -1,5 +1,6 @@
 import os
-from google.generativeai import GenerativeModel
+import asyncio
+from google import genai
 
 SYSTEM_PROMPT = """Actúas como agente virtual de Creai, especializado en gestión de solicitudes de viaje de negocio. Interactúas de forma natural y conversacional en Slack, sin respuestas robóticas ni prompts típicos de bot. Te integras con Google Sheet para usuarios, usas Google Cloud, SerpAPI, Gemini (como único motor conversacional/IA), Firebase y Github, y aprovechas cualquier servicio gratuito o económico que mejore el flujo. Guardas toda la interacción, datos personales y preferencias en Firebase para personalizar y evitar redundancias futuras. No usas la API de Okibi ni ningún servicio de pago adicional para la inteligencia conversacional.
 
@@ -106,17 +107,17 @@ Solo almacenas en Firebase datos requeridos y autorizados para el viaje y mejora
 class TravelAgent:
     def __init__(self):
         self.chats = {}
+        api_key = os.environ.get("GEMINI_API_KEY")
+        self.client = genai.Client(api_key=api_key)
 
     def _create_chat(self):
-        api_key = os.environ.get("GEMINI_API_KEY")
-        model = os.environ.get("GEMINI_MODEL", "gemini-pro")
-        ai = GenerativeModel(model, system_instruction=SYSTEM_PROMPT, api_key=api_key)
-        return ai.start_chat(history=[])
+        model = os.environ.get("GEMINI_MODEL", "gemini-2.5-pro")
+        return self.client.chats.create(model=model, system_instruction=SYSTEM_PROMPT)
 
     async def handle_message(self, user_id: str, text: str) -> str:
         chat = self.chats.get(user_id)
         if chat is None:
             chat = self._create_chat()
             self.chats[user_id] = chat
-        response = await chat.send_message(text)
+        response = await asyncio.to_thread(chat.send_message, text)
         return response.text
